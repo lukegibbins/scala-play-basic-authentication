@@ -1,0 +1,27 @@
+@(contact: Form[Contact])(implicit request: RequestHeader, messages: Messages, flash: Flash, session: Session)
+@import helper.CSRF
+
+@main("Create"){
+    <a class="btn btn-primary" href="/index" role="button">Back</a>
+<br><br>
+
+
+    @if(flash.get("incorrect")) {
+        <div class="container">
+            <div class ="alert alert-danger">
+            @flash.get("incorrect")
+            </div>
+        </div>
+    }
+
+    <h2>New Contact</h2>
+
+    @helper.form(action = routes.ContactController.createContact){
+    @CSRF.formField
+
+    @helper.inputText(contact("name"), '_label -> "Name", 'size -> 30, 'class -> "form-control")
+    @helper.inputText(contact("email"), '_label -> "Email Address",'size -> 30, 'class -> "form-control")
+
+    <input type ="submit" value="Create" class="btn btn-success"/>
+    }
+}

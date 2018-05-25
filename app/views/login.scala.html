@@ -1,0 +1,68 @@
+@(loginForm : Form[(String,String)])(implicit request: RequestHeader, messages: Messages, flash: Flash)
+@import helper.CSRF
+
+
+@helpers.loginlayout("Login"){
+
+
+<h1>Login</h1>
+<br><br>
+    @helper.form(routes.AuthController.authenticate) {
+        @CSRF.formField
+
+        @if(loginForm.hasGlobalErrors){
+            <div class="container">
+                <div class ="alert alert-info">
+                @loginForm.globalError.map { error =>
+                        @error.message
+                </div>
+            </div>
+          }
+        }
+
+        @if(flash.get("logout")) {
+            <div class="container">
+                <div class ="alert alert-info">
+                @flash.get("logout")
+                </div>
+            </div>
+        }
+
+        @if(flash.get("register")) {
+            <div class="container">
+                <div class ="alert alert-success">
+                @flash.get("register")
+                </div>
+            </div>
+        }
+
+        @if(flash.get("passwordUpdated")) {
+            <div class="container">
+                <div class ="alert alert-success">
+                @flash.get("passwordUpdated")
+                </div>
+            </div>
+        }
+
+        @if(flash.get("Forbidden")) {
+            <div class="container">
+                <div class ="alert alert-danger">
+                @flash.get("Forbidden")
+                </div>
+            </div>
+        }
+
+        <p><input type="email" name="email" placeholder="Email"  class="form-control" id="email" value="@loginForm("email").value"></p>
+        <p><input type="password" name="password" id="password" class="form-control" placeholder="Password"></p>
+
+         <p>
+            <div class="input btn-toolbar">
+            <button type="submit" id="loginbutton" class="btn btn-primary">Login</button>
+             <a class="btn btn-info" href="/register" role="button">Register/Sign Up</a>
+             <a class="btn btn-default" href="/forgottenPassword" role="button">Forgotten Password</a>
+           </div>
+        </p>
+
+    }
+}
+

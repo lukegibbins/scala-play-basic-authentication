@@ -1,0 +1,18 @@
+@(id:Long, contact:Form[Contact])(implicit request: RequestHeader, messages: Messages, session:Session)
+@import helper.CSRF
+
+@main("edit") {
+    <a class="btn btn-primary" href="/view" role="button">Back</a>
+<br><br>
+
+<h2>Update Contact</h2>
+
+@helper.form(action = routes.ContactController.update(id)){
+    @CSRF.formField
+    @helper.inputText(contact("name"), '_label -> "Name", 'size -> 30, 'class -> "form-control")
+    @helper.inputText(contact("email"), '_label -> "Email Address",'size -> 30, 'class -> "form-control")
+
+    <input type ="submit" value="Update" class="btn btn-success"/>
+ }
+}
+

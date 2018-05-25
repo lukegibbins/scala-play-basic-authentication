@@ -1,0 +1,93 @@
+@(registerForm : Form[Register])(implicit request: RequestHeader, messages: Messages, flash: Flash)
+
+@import helper.CSRF
+@helpers.loginlayout("Register"){
+
+    <h1>Register/Sign Up</h1>
+    <br>
+    <br>
+
+    <a class="btn btn-primary"href="/" role="button">Cancel</a>
+<br>
+    <br>
+
+
+    @if(flash.get("unsuccessful")) {
+        <div class="container">
+            <div class ="alert alert-danger">
+            @flash.get("unsuccessful")
+            </div>
+        </div>
+    }
+
+    <div class="container">
+        <h3 class = well>Registration Form</h3>
+        <div class="col-lg-12 well">
+    @helper.form(routes.AuthController.registerUser) {
+        @CSRF.formField
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+        @helper.inputText(registerForm("email"), 'class ->"form-control",'_label -> "Email", 'placeholder -> "Email Address", '_help -> "")
+                </div>
+                <div class="form-group col-md-6">
+        @helper.inputPassword(registerForm("password"),'class -> "form-control", '_label -> "Password", 'placeholder -> "Password", '_help -> "")
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+        @helper.inputText(registerForm("name"),'class -> "form-control", '_label -> "First Name", 'placeholder -> "First Name", '_help -> "")
+                </div>
+                <div class="form-group col-md-6">
+        @helper.inputText(registerForm("surname"), 'class -> "form-control",'_label -> "Surname", 'placeholder -> "Surname", '_help -> "")
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+        @helper.inputDate(registerForm("DOB"),'class -> "form-control", '_label -> "Date of Birth", '_help -> "")
+                </div>
+                <div class="form-group col-md-3">
+        @helper.inputRadioGroup(registerForm("gender"), options = Seq("Male" -> "Male","F" -> "Female"), '_label -> "Gender", '_help -> "")
+                </div>
+
+                <div class="form-group col-md-6">
+        @helper.inputText(registerForm("tel"), 'class -> "form-control",'_label -> "Contact Number", 'placeholder -> "Contact Number", '_help -> "Enter valid contact number",'_showErrors -> false)
+            </div>
+            </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+        @helper.inputText(registerForm("address.houseNo"), 'class -> "form-control", '_label -> "HouseNo.", 'placeholder -> "HouseNo.", '_help -> "")
+                    </div>
+                    <div class="form-group col-md-5">
+        @helper.inputText(registerForm("address.line1"), 'class -> "form-control", '_label -> "Address Line 1.", 'placeholder -> "AddressLine1.", '_help -> "")
+                    </div>
+                    <div class="form-group col-md-5">
+        @helper.inputText(registerForm("address.line2"), 'class -> "form-control", '_label -> "Address Line 2.",  'placeholder -> "AddressLine2.", '_help -> "")
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+        @helper.inputText(registerForm("address.postcode"), 'class -> "form-control", '_label -> "Postcode",  'placeholder -> "Postcode", '_help -> "")
+                    </div>
+                    <div class="form-group col-md-4">
+        @helper.inputText(registerForm("address.city"), 'class -> "form-control", '_label -> "City",  'placeholder -> "City", '_help -> "")
+                    </div>
+                    <div class="form-group col-md-4">
+        @helper.inputText(registerForm("address.county"), 'class -> "form-control", '_label -> "County",  'placeholder -> "County", '_help -> "")
+                    </div>
+                </div>
+
+
+        <input type ="submit" value="Register" class="btn btn-success btn-block"/>
+
+    </div>
+    </div>
+    }
+
+
+
+}

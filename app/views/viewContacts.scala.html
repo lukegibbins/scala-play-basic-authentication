@@ -1,0 +1,58 @@
+@(contacts:List[Contact], filter:String, size:Int)(implicit request: RequestHeader, messages:Messages, flash:Flash, session:Session)
+@import helper.CSRF
+
+
+@main("View"){
+    <a class="btn btn-primary" href="/index" role="button">Back</a>
+    <br>
+    <h2>All Contacts</h2>
+
+<br>
+    @if(flash.get("success")) {
+        <div class="container">
+            <div class ="alert alert-success">
+            @flash.get("success")
+            </div>
+        </div>
+    }
+    <br>
+
+
+    @helper.form(action = routes.ContactController.search(filter)) {
+        @CSRF.formField
+        <div class="col-xs-4">
+        <input type="text" class="form-control" name="search" id="searchbox" value="@filter" placeholder="Search name..." required>
+        </div>
+        <input type="submit" id="searchsubmit" value="Go" class="btn btn-primary">
+        <a class="btn btn-info" href="view" role="button">Refresh</a>
+    }
+<table class ="table">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+    </tr>
+
+
+    @if(contacts.isEmpty){
+        <h1>No Results Found</h1>
+        <p>@contacts.length</p>
+    }else{
+        <h3>Results Found @size</h3>
+    @contacts.map {contacts =>
+        <tr>
+            <td>@contacts.id</td>
+            <td>@contacts.name</td>
+            <td>@contacts.email</td>
+            <td><a href="@routes.ContactController.edit(contacts.id)">Edit</a></td>
+            <td>
+            @helper.form(action = routes.ContactController.delete(contacts.id)) {
+                @CSRF.formField
+                <input type = "submit" value = "Delete" class="btn btn-danger"/>
+            }
+            </td>
+        </tr>
+    }
+</table>
+ }
+}

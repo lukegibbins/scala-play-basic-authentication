@@ -1,0 +1,182 @@
+@(register: Option[Register])(implicit session: Session, flash:Flash, request: RequestHeader)
+@import helper.CSRF
+@main("Profile"){
+
+
+    <a class="btn btn-primary" href="/index" role="button">Back</a>
+
+    @register.map { r =>
+    <div class="container bootstrap snippet">
+
+        <div class="row">
+            <div class="col-sm-10">
+                <h1>My Profile</h1>
+                <br><br>
+            </div>
+
+            <div class="col-sm-2">
+                <img src="@routes.Assets.versioned("resources/"+r.image.getOrElse("avatar.png"))" class="img-circle img-responsive">
+                @helper.form(action = routes.AuthController.uploadProfileImage, 'enctype -> "multipart/form-data") {
+                    @CSRF.formField
+                <input type="file" name="picture">
+                <input type="submit" value="Upload" class="form-control">
+                }
+            </div>
+        </div>
+    </div>
+
+        <br><br>
+        @if(flash.get("updatedPassword")) {
+            <div class="container">
+                <div class ="alert alert-success">
+                @flash.get("updatedPassword")
+                </div>
+            </div>
+        }
+        @if(flash.get("errorOnFile")) {
+            <div class="container">
+                <div class ="alert alert-danger">
+                @flash.get("errorOnFile")
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-sm-3">
+                    <!--left col-->
+                <ul class="list-group">
+                    <li class="list-group-item text-muted">Profile</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Joined</strong></span> 12-02-2010 </li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Last seen</strong></span> 14-04-2017 </li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Username</strong></span>@r.email</li>
+
+                </ul>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Website <i class="fa fa-link fa-1x"></i></div>
+                    <div class="panel-body"><a href="http://bootnipets.com">www.mywebsite.com</a></div>
+                </div>
+
+                <ul class="list-group">
+                    <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
+                    <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+                </ul>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">Social Media</div>
+                    <div class="panel-body"><a href="http://bootnipets.com">instagram.com</a>
+                        <i class="fa fa-facebook fa-2x"></i> <i class="fa fa-github fa-2x"></i> <i class="fa fa-twitter fa-2x"></i> <i class="fa fa-pinterest fa-2x"></i> <i class="fa fa-google-plus fa-2x"></i>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+                <!--/col-3-->
+            <div class="col-sm-9">
+
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active"><a href="" data-toggle="tab">Profile</a></li>
+                </ul>
+
+                    <div class="tab-pane" id="settings">
+
+                        <hr>
+
+                        <form class="form" action="##" method="post" id="profileForm">
+                            <div class="form-group">
+
+                                <div class="col-xs-6">
+                                    <label for="first_name">
+                                        <h4>First Name</h4></label>
+                                    <input type="text" class="form-control" name="first_name" id="first_name"  value="@r.name" readonly>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="last_name">
+                                        <h4>Last Name</h4></label>
+                                    <input type="text" class="form-control" name="surname" id="surname"  value="@r.surname" readonly>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="phone">
+                                        <h4>DOB</h4></label>
+                                    <input type="text" class="form-control" name="DOB" id="DOB" value="@r.DOB" readonly>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="mobile">
+                                        <h4>Mobile</h4></label>
+                                    <input type="text" class="form-control" name="mobile" id="mobile" value="@r.tel" readonly>
+
+                            </div>
+                            <div class="form-group">
+
+
+                                <div class="col-xs-6">
+                                    <label for="email">
+                                        <h4>Email</h4></label>
+                                    <input type="text" class="form-control" name="email" id="email"  value="@r.email" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="password">
+                                        <h4>Gender</h4></label>
+                                    <input type="text" class="form-control" name="gender" id="gender" value="@r.gender" readonly>
+                                </div>
+                            </div>
+
+                                <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label for="Address">
+                                        <h4>Address</h4></label>
+                                    <input type="text" class="form-control" name="address" id="address"  value="@r.address.houseNo @r.address.line1" readonly>
+                                    <input type="text" class="form-control" name="address" id="address"  value="@r.address.line2" readonly>
+                                    <input type="text" class="form-control" name="address" id="address"  value="@r.address.postcode" readonly>
+                                    <input type="text" class="form-control" name="address" id="address"  value="@r.address.city" readonly>
+                                    <input type="text" class="form-control" name="address" id="address"  value="@r.address.county" readonly>
+                                </div>
+                            </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-xs-6">
+                                        <label for="password">
+                                            <h4>Password</h4></label>
+                                        <input type="password" class="form-control" name="password" id="password" value="@r.password" readonly>
+                                        <a class="btn btn-success" href="/changePassword " role="button">Change Password</a>
+                                    </div>
+                                </div>
+
+
+    } <!-- End of register.map -->
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+}

@@ -1,0 +1,23 @@
+@()(implicit session: Session)
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand">Contact Manager</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/index"> <i class="glyphicon glyphicon-home"></i> Home</a></li>
+            <li><a href="@routes.ContactController.view()"> <i class="glyphicon glyphicon-book"></i>View Contacts</a></li>
+            <li><a href="@routes.ContactController.createPage()"> <i class="glyphicon glyphicon-plus-sign"></i>Create Contacts</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <span class="navbar-text">
+                @session.get("email").getOrElse("")
+                </span>
+            </li>
+            <li><a href="@routes.AuthController.profile"> <i class="glyphicon glyphicon-cloud"></i>MyProfile</a></li>
+            <li><a href="@routes.AuthController.logout()"> <i class="glyphicon glyphicon-log-out"></i>Logout</a></li>
+        </ul>
+    </div>
+</nav>
